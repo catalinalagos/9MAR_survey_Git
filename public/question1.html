@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survey | Question 1</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  <script src="definitions.js"></script>
+  <script src="functions.js"></script>
+  <script src="sketch1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
+</head>
+
+<body>
+  <main>
+    <div class="question">
+      <p class="title2"> Question 1 title</p>
+      <p class="subtitle"> Details or explanaition to the question in case is needed.</p>
+    </div>
+  </main>
+  <div id="canvasForHTML"></div>
+  <div>
+    <form action="/formPost" method="POST" class="all">
+      <textarea name="content" id="source" rows="3"> </textarea>
+      <button type="submit" class="button button1" >Submit</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    //define where to get the source and place the result
+    const source = document.getElementById('source');
+    // --------------------- LISTENING LOOP ---------------------
+    const inputHandler = function (e) {
+      words = e.target.value.split(' '); //to store tokens in an array
+      wordsStr = e.target.value; //to save the string
+      wordsStr = wordsStr.toLowerCase();
+
+      //RESET ARRAYS AND DICTIONARIES
+      wordsfinal = [];
+      allStoredEmotions = [];
+      dictionaryEmotions = {};
+      allStoredSelf = [];
+      dictionarySelf = {};
+      allStoredEnv = [];
+      dictionaryEnv = {};
+      codesColors = [];
+      codesSelf = [];
+      codesEnv = [];
+
+      // --------------------- CHECK KEYWORDS --------------------
+      //all keywords detected will be stored in an array and a dictionary (for frequency)
+      //checkKeywords(allKeywordsArray); //fills allStoredKeywords and dictionaryKeywords
+      checkKeywords(allKeywordsArray[0], allStoredEmotions, dictionaryEmotions); //is checking the emotionsList 
+      checkKeywords(allKeywordsArray[1], allStoredSelf, dictionarySelf); //checking self
+      checkKeywords(allKeywordsArray[2], allStoredEnv, dictionaryEnv); //checking entities
+      // allStoredKeywords is now populated with all keywords
+
+      //function analyzeKeywords populates target arrays named codesSomething
+      //analyzeKeywords(arrayofKeywordsDetected,originalList,targetArray,existingDict) -- 4 parameters
+      analyzeKeywords(allStoredEmotions, allEmotionsLists, codesColors, dictionaryEmotions); //for emotions
+      analyzeKeywords(allStoredSelf, allSelfLists, codesSelf, dictionarySelf); //for self
+      analyzeKeywords(allStoredEnv, allEnvLists, codesEnv, dictionaryEnv); //for environment
+      colorsArray = codesColors;
+      //PERSONAL FUNCTIONS
+
+    } //End of listening
+
+
+    source.addEventListener('input', inputHandler);
+    source.addEventListener('propertychange', inputHandler);
+  </script>
+</body>
+
+</html>
